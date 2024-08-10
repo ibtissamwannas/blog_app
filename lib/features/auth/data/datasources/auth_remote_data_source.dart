@@ -3,6 +3,7 @@ import 'package:blog_app/features/auth/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
+  Session? get currentUserSession;
   Future<UserModel> signUp({
     required String name,
     required String email,
@@ -12,6 +13,8 @@ abstract interface class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
+  Future<UserModel?> getCurrentUserData();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -19,6 +22,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(
     this.supabaseClient,
   );
+
+  @override
+  Session? get currentUserSession => supabaseClient.auth.currentSession;
+
   @override
   login({required String email, required String password}) async {
     try {
@@ -53,6 +60,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw SeverException("user is null");
       }
       return UserModel.fromJson(response.user!.toJson());
+    } catch (e) {
+      throw SeverException(e.toString());
+    }
+  }
+
+  @override
+  getCurrentUserData() async {
+    try {
+      if (currentUserSession != null) {
+        final userData = await supabaseClient
+            .from('profiles')
+            .select()
+            .eq('id', currentUserSession!.user.id);
+        return UserModel.fromJson(userData.first)
+            .copyWith(email: currentUserSession!.user.email);
+      }
+      return null;
     } catch (e) {
       throw SeverException(e.toString());
     }

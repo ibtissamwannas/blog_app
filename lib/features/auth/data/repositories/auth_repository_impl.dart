@@ -1,9 +1,10 @@
 import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:blog_app/features/auth/domain/entities/user.dart';
+import 'package:blog_app/core/common/entities/user.dart';
 import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
@@ -41,6 +42,26 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final user = await fn();
       return Right(user);
+    } on sb.AuthException catch (e) {
+      return Left(
+        Failure(message: e.message),
+      );
+    } on SeverException catch (e) {
+      return Left(
+        Failure(message: e.message),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> currentUser() async {
+    try {
+      final user = await authRemoteDataSource.getCurrentUserData();
+      if (user == null) {
+        return left(Failure(message: "User not found"));
+      } else {
+        return Right(user);
+      }
     } on SeverException catch (e) {
       return Left(
         Failure(message: e.message),
