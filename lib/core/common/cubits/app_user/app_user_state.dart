@@ -10,6 +10,5 @@ final class AppUserLoggedIn extends AppUserState {
   AppUserLoggedIn({required this.user});
 }
 
-
 // core cannot be depend on ther features
 // other feature can be depent on core
