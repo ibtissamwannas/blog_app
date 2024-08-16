@@ -9,6 +9,7 @@ class BlogModel extends Blog {
     required super.imageUrl,
     required super.topics,
     required super.updatedAt,
+    super.posterName,
   });
 
   Map<String, dynamic> toJson() {
@@ -30,10 +31,32 @@ class BlogModel extends Blog {
       title: map['title'] as String,
       content: map['content'] as String,
       imageUrl: map['image_url'] as String,
-      topics: List<String>.from((map['topics'] as List<String>)),
+      topics: List<String>.from(map['topics'] ?? []),
       updatedAt: map['updated_at'] == null
           ? DateTime.now()
           : DateTime.parse(map['updated_at']),
+    );
+  }
+
+  BlogModel copyWith({
+    String? id,
+    String? posterId,
+    String? title,
+    String? content,
+    String? imageUrl,
+    List<String>? topics,
+    DateTime? updatedAt,
+    String? posterName,
+  }) {
+    return BlogModel(
+      id: id ?? this.id,
+      posterId: posterId ?? this.posterId,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      imageUrl: imageUrl ?? this.imageUrl,
+      topics: topics ?? this.topics,
+      updatedAt: updatedAt ?? this.updatedAt,
+      posterName: posterName ?? this.posterName,
     );
   }
 }

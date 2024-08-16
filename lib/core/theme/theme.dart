@@ -23,7 +23,9 @@ class AppTheme {
       side: BorderSide.none,
     ),
     inputDecorationTheme: InputDecorationTheme(
+      border: _border(),
       enabledBorder: _border(),
+      errorBorder: _border(),
       focusedBorder: _border(
         color: AppPallete.gradient2,
       ),
