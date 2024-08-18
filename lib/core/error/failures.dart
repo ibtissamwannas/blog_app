@@ -1,4 +1,4 @@
 class Failure {
   final String message;
-  Failure({this.message = "An unexpected error occured"});
+  Failure(String noConnectionErrorMessage, {this.message = "An unexpected error occured"});
 }

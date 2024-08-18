@@ -27,7 +27,6 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
 
       return BlogModel.fromJson(blogData.first);
     } catch (e) {
-      print(e.toString());
       throw SeverException(e.toString());
     }
   }
