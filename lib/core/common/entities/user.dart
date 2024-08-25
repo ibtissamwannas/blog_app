@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-class User {
+import 'package:equatable/equatable.dart';
+
+class User extends Equatable {
   final String id;
   final String name;
   final String email;
@@ -9,4 +11,7 @@ class User {
     required this.name,
     required this.email,
   });
+
+  @override
+  List<Object?> get props => [id, name, email];
 }
