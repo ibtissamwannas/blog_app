@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:blog_app/core/network/connection_checker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
