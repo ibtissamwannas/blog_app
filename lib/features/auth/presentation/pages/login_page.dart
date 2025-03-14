@@ -33,7 +33,8 @@ class _LogInPageState extends State<LogInPage> {
         padding: const EdgeInsets.all(15.0),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is AuthFailure) {
+            if (state is AuthFailure &&
+                state.message != "An unexpected error occured") {
               return showSnackBar(context, state.message);
             } else if (state is AuthSuccess) {
               Navigator.pushAndRemoveUntil(

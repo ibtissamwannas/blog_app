@@ -57,9 +57,12 @@ void main() {
 
   test('when user is null should throw SeverException', () async {
     // Arrange
-    when(() => mockAuth.signInWithPassword(
-            email: any(named: 'email'), password: any(named: 'password')))
-        .thenAnswer((_) async => mockAuthResponse);
+    when(
+      () => mockAuth.signInWithPassword(
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async => mockAuthResponse);
 
     when(() => mockAuthResponse.user).thenReturn(null);
 
